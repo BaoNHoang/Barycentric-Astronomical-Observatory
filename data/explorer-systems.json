@@ -1,0 +1,171 @@
+{
+  "source": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select%20pl_name%2Chostname%2Cdiscoverymethod%2Cdisc_year%2Cpl_orbper%2Cpl_orbsmax%2Cpl_rade%2Cpl_bmasse%2Cpl_bmassprov%2Cpl_eqt%2Csy_dist%2Cst_teff%2Cst_rad%2Cst_mass%2Cst_spectype%2Cpl_radeerr1%2Cpl_radeerr2%2Cpl_bmasseerr1%2Cpl_bmasseerr2%2Cpl_orbeccen%2Csy_pnum%2Cra%2Cdec%20from%20pscomppars%20order%20by%20pl_name&format=json",
+  "retrieved_at": "2026-09-05T06:31:09.025Z",
+  "records": [
+    {
+      "name": "Kepler-90 b",
+      "host": "Kepler-90",
+      "catalogName": "KOI-351 b",
+      "periodDays": 7.008151,
+      "semiMajorAu": 0.074,
+      "radiusEarth": 1.31,
+      "distancePc": 848.254,
+      "temperatureK": 1062,
+      "discoveryYear": 2013
+    },
+    {
+      "name": "Kepler-90 c",
+      "host": "Kepler-90",
+      "catalogName": "KOI-351 c",
+      "periodDays": 8.719375,
+      "semiMajorAu": 0.089,
+      "radiusEarth": 1.19,
+      "distancePc": 848.254,
+      "temperatureK": 987,
+      "discoveryYear": 2013
+    },
+    {
+      "name": "Kepler-90 d",
+      "host": "Kepler-90",
+      "catalogName": "KOI-351 d",
+      "periodDays": 59.73667,
+      "semiMajorAu": 0.32,
+      "radiusEarth": 2.87,
+      "distancePc": 848.254,
+      "temperatureK": 520,
+      "discoveryYear": 2013
+    },
+    {
+      "name": "Kepler-90 e",
+      "host": "Kepler-90",
+      "catalogName": "KOI-351 e",
+      "periodDays": 91.93913,
+      "semiMajorAu": 0.42,
+      "radiusEarth": 2.66,
+      "distancePc": 848.254,
+      "temperatureK": 450,
+      "discoveryYear": 2013
+    },
+    {
+      "name": "Kepler-90 f",
+      "host": "Kepler-90",
+      "catalogName": "KOI-351 f",
+      "periodDays": 124.9144,
+      "semiMajorAu": 0.48,
+      "radiusEarth": 2.88,
+      "distancePc": 848.254,
+      "temperatureK": 407,
+      "discoveryYear": 2013
+    },
+    {
+      "name": "Kepler-90 g",
+      "host": "Kepler-90",
+      "catalogName": "KOI-351 g",
+      "periodDays": 210.73514,
+      "semiMajorAu": 0.71704,
+      "radiusEarth": 7.718,
+      "distancePc": 848.254,
+      "temperatureK": 342,
+      "discoveryYear": 2013
+    },
+    {
+      "name": "Kepler-90 h",
+      "host": "Kepler-90",
+      "catalogName": "KOI-351 h",
+      "periodDays": 331.60296,
+      "semiMajorAu": 0.97062,
+      "radiusEarth": 11.252,
+      "distancePc": 848.254,
+      "temperatureK": 294,
+      "discoveryYear": 2013
+    },
+    {
+      "name": "Kepler-90 i",
+      "host": "Kepler-90",
+      "catalogName": "Kepler-90 i",
+      "periodDays": 14.44912,
+      "semiMajorAu": 0.1201380843,
+      "radiusEarth": 1.32,
+      "distancePc": 848.254,
+      "temperatureK": 709,
+      "discoveryYear": 2017
+    },
+    {
+      "name": "TRAPPIST-1 b",
+      "host": "TRAPPIST-1",
+      "catalogName": "TRAPPIST-1 b",
+      "periodDays": 1.510826,
+      "semiMajorAu": 0.01154,
+      "radiusEarth": 1.116,
+      "distancePc": 12.42988881,
+      "temperatureK": 397.6,
+      "discoveryYear": 2016
+    },
+    {
+      "name": "TRAPPIST-1 c",
+      "host": "TRAPPIST-1",
+      "catalogName": "TRAPPIST-1 c",
+      "periodDays": 2.421937,
+      "semiMajorAu": 0.0158,
+      "radiusEarth": 1.097,
+      "distancePc": 12.42988881,
+      "temperatureK": 339.7,
+      "discoveryYear": 2016
+    },
+    {
+      "name": "TRAPPIST-1 d",
+      "host": "TRAPPIST-1",
+      "catalogName": "TRAPPIST-1 d",
+      "periodDays": 4.049219,
+      "semiMajorAu": 0.02227,
+      "radiusEarth": 0.788,
+      "distancePc": 12.42988881,
+      "temperatureK": 286.2,
+      "discoveryYear": 2016
+    },
+    {
+      "name": "TRAPPIST-1 e",
+      "host": "TRAPPIST-1",
+      "catalogName": "TRAPPIST-1 e",
+      "periodDays": 6.101013,
+      "semiMajorAu": 0.02925,
+      "radiusEarth": 0.92,
+      "distancePc": 12.42988881,
+      "temperatureK": 249.7,
+      "discoveryYear": 2017
+    },
+    {
+      "name": "TRAPPIST-1 f",
+      "host": "TRAPPIST-1",
+      "catalogName": "TRAPPIST-1 f",
+      "periodDays": 9.20754,
+      "semiMajorAu": 0.03849,
+      "radiusEarth": 1.045,
+      "distancePc": 12.42988881,
+      "temperatureK": 217.7,
+      "discoveryYear": 2017
+    },
+    {
+      "name": "TRAPPIST-1 g",
+      "host": "TRAPPIST-1",
+      "catalogName": "TRAPPIST-1 g",
+      "periodDays": 12.352446,
+      "semiMajorAu": 0.04683,
+      "radiusEarth": 1.129,
+      "distancePc": 12.42988881,
+      "temperatureK": 197.3,
+      "discoveryYear": 2017
+    },
+    {
+      "name": "TRAPPIST-1 h",
+      "host": "TRAPPIST-1",
+      "catalogName": "TRAPPIST-1 h",
+      "periodDays": 18.772866,
+      "semiMajorAu": 0.06189,
+      "radiusEarth": 0.755,
+      "distancePc": 12.42988881,
+      "temperatureK": 171.7,
+      "discoveryYear": 2017
+    }
+  ]
+}

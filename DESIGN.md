@@ -25,7 +25,7 @@ visual template to reproduce.
 ## Observatory
 
 - `/explore` contains the tools. Following the owner's September 7 feedback,
-  show the eight destinations in a left navigation bar, with original BAO icons
+  show the tool destinations in a left navigation bar, with original BAO icons
   and a clear active link. On small screens, a Navigation button opens a drawer
   that closes after choosing a tool. Preserve keyboard focus and Escape behavior.
 - Continue the space background throughout the app: fine stars, blue-violet
@@ -49,6 +49,25 @@ visual template to reproduce.
 - Data lists use compact rows. Open a record to see the full measurements.
 - Sources, unknown values, and scientific limitations remain truthful.
 
+## Galaxy explorer
+
+- `/explore#galaxies` leads with one large observing surface. Five galaxy choices
+  sit in a compact image strip, with a breadcrumb, fullscreen and a Details control.
+- NASA/ESA observations retain their complete visible credits. The Milky Way is
+  explicitly labeled as an artist’s concept. Never imply that imagery resolves
+  individual planetary systems in other galaxies.
+- Milky Way system choices open the Solar System, TRAPPIST-1 and Kepler-90.
+  Selecting a planet smoothly frames its globe; Whole system restores context.
+  Measurements and caveats stay in a disclosure panel. Unknown surfaces remain
+  plain illustrative globes; do not invent observed terrain or habitability.
+- Native fullscreen and the mobile viewport fallback retain navigation, details
+  and zoom controls. The fallback locks document scrolling, contains keyboard
+  focus and restores focus on exit. Galaxy panning supports touch and keyboard.
+- Render loops follow display frames and stop offscreen or in hidden tabs.
+  Camera damping uses elapsed time. Date controls update less often while the
+  planet and moon renderers interpolate their samples. UI transitions use opacity,
+  color or transforms; reduced motion disables decorative transitions by default.
+
 ## Icons and accessibility
 
 `components/icons.tsx` is BAO's original code-generated vector glyph set.
@@ -63,6 +82,11 @@ and reduced-motion support. Native disclosures keep the interaction code small.
 - `components/homepage.tsx`: website composition and motion control.
 - `app/home.css`: homepage layout and responsive art treatment.
 - `components/observatory.tsx`: shared observation state and app layout.
+- `components/explorers/galaxy-explorer.tsx`: galaxy, system and planet navigation.
+- `components/galaxy-image.tsx`: bounded image pan and zoom, including touch.
+- `components/explorer-system-scene.tsx`: illustrative 3D models and camera travel.
+- `lib/animation.ts` and `hooks/use-fullscreen.ts`: shared scene lifecycle and fullscreen.
+- `data/galaxies.json` and `public/galaxies/manifest.json`: references and image provenance.
 - `components/observatory-navigation.tsx`: left navigation and mobile drawer.
 - `components/space-background.tsx`: background art and pause/resume button.
 - `hooks/use-background-motion.ts`: reduced-motion default and saved preference.

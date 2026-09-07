@@ -15,6 +15,10 @@ import Spacecraft from "@/components/explorers/spacecraft";
 import Gallery from "@/components/explorers/gallery";
 import ApiPlayground from "@/components/explorers/api-playground";
 import Guide from "@/components/explorers/guide";
+import GalaxyExplorer from "@/components/explorers/galaxy-explorer";
+import galaxies from "@/data/galaxies.json";
+import { systems } from "@/data/explorer-systems";
+import "./check-animation";
 import RadiusComparison from "@/components/radius-comparison";
 import { Disclosure } from "@/components/shared";
 import { ArrowRight, Pause, Play } from "@/components/icons";
@@ -99,6 +103,7 @@ for (const Glyph of [ArrowRight, Pause, Play]) {
 }
 
 const views = [
+  <GalaxyExplorer />,
   <SolarSystem time={time} onTimeChange={change} />,
   <SkyExplorer
     time={time}
@@ -113,6 +118,44 @@ const views = [
   <ApiPlayground time={time} />,
   <Guide />,
 ];
+const atlas = renderToStaticMarkup(<GalaxyExplorer />);
+assert.match(atlas, /Enter fullscreen/);
+assert.match(atlas, /Choose a galaxy/);
+assert.match(atlas, /Visit Milky Way systems/);
+assert.match(atlas, /Scroll or pinch to zoom/);
+assert.equal(galaxies.length, 5);
+for (const galaxy of galaxies) {
+  assert.ok(
+    existsSync("public" + galaxy.image),
+    galaxy.name + " image must be bundled",
+  );
+  assert.ok(existsSync("public" + galaxy.thumbnail));
+  assert.ok(
+    galaxy.credit.length > 10 &&
+      galaxy.facts.every((f) => f.source.startsWith("https://")),
+  );
+}
+assert.match(galaxies.find((g) => g.id === "milky-way")!.imageNote, /Artist/);
+assert.deepEqual(
+  systems.map((s) => s.planets.length),
+  [8, 7, 8],
+  "Catalog aliases must not omit Kepler-90 planets",
+);
+for (const system of systems) {
+  assert.equal(
+    new Set(system.planets.map((p) => p.id)).size,
+    system.planets.length,
+  );
+  for (const planet of system.planets) {
+    assert.ok(planet.periodDays > 0 && planet.semiMajorAu > 0);
+    if (system.id !== "solar")
+      assert.equal(
+        planet.texture,
+        undefined,
+        "Unknown exoplanet surfaces must not inherit Solar System maps",
+      );
+  }
+}
 for (const view of views) {
   const html = renderToStaticMarkup(view);
   assert.equal((html.match(/<h1[ >]/g) ?? []).length, 1);
@@ -137,7 +180,7 @@ const known = renderToStaticMarkup(
 assert.match(known, /r="18"/);
 assert.match(known, /r="36"/);
 console.log(
-  "Interface checks passed: motion play-state, 8 sidebar destinations, footer links, homepage, 8 tools, disclosures, glyphs, assets, radius scaling.",
+  "Interface checks passed: motion play-state, 9 sidebar destinations, footer links, homepage, 9 tools, galaxy sources/assets, 23 planets, disclosures, glyphs, radius scaling.",
 );
 console.log(
   "Server-rendered structural checks only; not browser or visual interaction tests.",

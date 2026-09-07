@@ -67,6 +67,22 @@ export const Orbit = glyph(
     <path d="M18 3v4m-2-2h4" />
   </>,
 );
+export const Galaxy = glyph(
+  <>
+    <path d="M13 9c7-4 12 2 6 7-5 4-13 3-14-1m6 0C4 19-1 13 5 8c5-4 13-3 14 1" />
+    <ellipse cx="12" cy="12" rx="2.5" ry="1.5" transform="rotate(-30 12 12)" />
+    <path d="M3 3h.01M21 21h.01" />
+  </>,
+);
+export const Minimize = glyph(
+  <path d="M9 3v6H3m12-6v6h6M3 15h6v6m12-6h-6v6" />,
+);
+export const Info = glyph(
+  <>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 11v6m0-10v1" />
+  </>,
+);
 export const Star = glyph(
   <path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5Z" />,
 );

@@ -15,6 +15,7 @@ import {
   Close,
   Code2,
   Globe2,
+  Galaxy,
   Images,
   Menu,
   Orbit,
@@ -25,6 +26,7 @@ import {
 import { MotionControl } from "@/components/space-background";
 
 export const navigation = [
+  { value: "galaxies", label: "Galaxy explorer", icon: Galaxy },
   { value: "solar-system", label: "Solar system", icon: Orbit },
   { value: "sky-explorer", label: "Sky chart", icon: Star },
   { value: "exoplanets", label: "Exoplanets", icon: Globe2 },

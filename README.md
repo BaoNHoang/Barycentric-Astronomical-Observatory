@@ -59,6 +59,9 @@ All application tests run at the test stage. Live NASA/JPL integration checks
 run after merging into test and on manual test runs. The main promotion verifies
 the test results before it can merge.
 
+GitHub Free does not enforce saved protection rules on private repositories.
+Enforcement requires GitHub Pro or a public repository; see [GitHub setup](docs/GITHUB_SETUP.md).
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the exact PowerShell workflow.
 
 ## Commands

@@ -1,0 +1,23 @@
+name: Bug report
+description: Report something that does not work as expected.
+title: "Bug: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Include the tool or API endpoint and the result you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the selected date and location when relevant.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser or runtime
+      placeholder: Windows 11, Chrome; or Node.js version for API issues

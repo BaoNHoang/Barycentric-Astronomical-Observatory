@@ -1,0 +1,16 @@
+name: Feature request
+description: Suggest an improvement to BAO.
+title: "Feature: "
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What would you like to do?
+      description: Explain the task and how this feature would help.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected result
+      description: Describe the behavior or output you have in mind.

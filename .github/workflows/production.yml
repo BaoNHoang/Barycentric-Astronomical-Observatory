@@ -1,0 +1,45 @@
+name: Production build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bao-production
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Package production
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Collect the standalone server and assets
+        run: |
+          mkdir -p production/.next
+          cp -r .next/standalone/. production/
+          cp -r .next/static production/.next/static
+          cp -r public production/public
+      - uses: actions/upload-artifact@v7
+        with:
+          name: bao-production-${{ github.sha }}
+          path: production/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

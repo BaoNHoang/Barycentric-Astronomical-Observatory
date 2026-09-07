@@ -1,0 +1,106 @@
+/* The website front door stays intentionally separate from the data tools. */
+.home {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+  background: #040511;
+  color: #fff6eb;
+}
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px clamp(24px, 5vw, 88px);
+}
+.home-wordmark {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+.home-header nav {
+  display: flex;
+  gap: clamp(24px, 3vw, 54px);
+}
+.home-header nav a {
+  font-size: 14px;
+  color: #ebe5f1;
+}
+.home a:not(.home-enter):hover {
+  color: #ffcbab;
+}
+.home-intro {
+  padding: 70px clamp(24px, 8vw, 140px) 100px;
+  min-height: calc(100dvh - 100px);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.home h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: clamp(48px, 6.6vw, 104px);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  color: #fff7ed;
+  text-shadow: 0 2px 28px #03061140;
+}
+.home-enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 48px;
+  min-height: 56px;
+  margin-top: 42px;
+  padding: 0 22px;
+  background: #f4c4ab;
+  color: #211327;
+  font-size: 15px;
+  font-weight: 550;
+  transition: background 0.2s;
+}
+.home-enter:hover {
+  background: #ffe0c8;
+}
+.home .site-footer {
+  padding-left: clamp(24px, 5vw, 88px);
+  padding-right: clamp(24px, 5vw, 88px);
+}
+@media (max-width: 700px) {
+  .space-background-home .space-background-art {
+    background-position: 58% center;
+  }
+  .space-background-home .space-background-shade {
+    background:
+      linear-gradient(90deg, #030510b0, #03051024),
+      linear-gradient(0deg, #030510a0, transparent 50%);
+  }
+  .home-header {
+    padding-top: 24px;
+  }
+  .home-header nav {
+    font-size: 13px;
+    gap: 22px;
+  }
+  .home-wordmark {
+    font-size: 23px;
+  }
+  .home-intro {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+  .home h1 {
+    font-size: clamp(43px, 10vw, 68px);
+  }
+  .home-enter {
+    gap: 34px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-enter {
+    transition: none;
+  }
+}

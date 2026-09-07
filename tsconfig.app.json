@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["app/**/*.ts", "app/**/*.tsx", "components/**/*.tsx", "lib/**/*.ts", "data/**/*.ts", "hooks/**/*.ts"],
+  "exclude": ["node_modules", "app/chatgpt-auth.ts"]
+}

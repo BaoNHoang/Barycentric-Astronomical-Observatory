@@ -1,0 +1,48 @@
+name: Test suite
+
+on:
+  pull_request:
+    branches: [test]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+  push:
+    branches: [test]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# JPL asks clients to make one request at a time. Serialize the testing stage.
+concurrency:
+  group: bao-test-suite
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Test suite
+    if: github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/test'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Type check
+        run: npm run check
+      - name: Branch policy tests
+        run: npm run test:workflow
+      - name: Astronomy and API tests
+        run: npm test
+      - name: Interface structure tests
+        run: npm run test:ui
+      - name: Build the complete app
+        run: npm run build
+      - name: Live NASA and JPL integration tests
+        if: github.event_name != 'pull_request'
+        run: npm run test:live

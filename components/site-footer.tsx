@@ -13,6 +13,7 @@ export default function SiteFooter({ children }: { children?: ReactNode }) {
         </div>
         <nav aria-label="Explore links">
           <h2>Explore</h2>
+          <a href="/explore#galaxies">Galaxy explorer</a>
           <a href="/explore#solar-system">Solar system</a>
           <a href="/explore#sky-explorer">Your sky</a>
           <a href="/explore#gallery">Image archive</a>

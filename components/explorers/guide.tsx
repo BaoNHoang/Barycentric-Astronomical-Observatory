@@ -34,6 +34,25 @@ export default function Guide() {
         </div>
       </div>
       <div className="guide-grid">
+        <Disclosure title="Exploring galaxies and planetary systems">
+          <p>
+            Open Galaxy explorer in the left navigation. Select a galaxy, then
+            scroll or pinch to zoom and drag to pan. Details opens its
+            description, measurements and source links.
+          </p>
+          <p>
+            The Milky Way illustration leads to three interactive star systems.
+            Select a planet to fly closer; choose Whole system to return.
+            Fullscreen keeps the image, descriptions and navigation together.
+          </p>
+          <p>
+            Galaxy images are processed observations, except the labeled Milky
+            Way artist’s concept. System orbits, spacing and sizes are
+            illustrative; exoplanet surface appearances are unknown. The Solar
+            system tool separately provides calculated positions for your chosen
+            date.
+          </p>
+        </Disclosure>
         <Disclosure title="Reading the code">
           <ol className="learning-list">
             <li>
@@ -47,8 +66,8 @@ export default function Guide() {
             <li>
               <strong>components/explorers/</strong>
               <p>
-                One file per feature: planets, sky, exoplanets, asteroids,
-                spacecraft, gallery, API.
+                One file per feature: galaxies, planets, sky, exoplanets,
+                asteroids, spacecraft, gallery, API.
               </p>
             </li>
             <li>

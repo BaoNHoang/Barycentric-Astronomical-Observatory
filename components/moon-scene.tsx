@@ -5,6 +5,10 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { moons, findBody } from "@/data/bodies";
 import { eclipticVector, DAY_MS } from "@/lib/astronomy";
 import { planetMesh, disposeScene } from "@/lib/scene";
+import { animateScene, damping } from "@/lib/animation";
+import { useFullscreen } from "@/hooks/use-fullscreen";
+import { useBackgroundMotion } from "@/hooks/use-background-motion";
+import { Plus, Minus, RotateCcw, Maximize2 } from "@/components/icons";
 type Props = {
   time: string;
   selected: string;
@@ -15,6 +19,11 @@ type Props = {
   trueScale: boolean;
 };
 export default function MoonScene(props: Props) {
+  const fullscreen = useFullscreen();
+  const { moving } = useBackgroundMotion();
+  const motion = useRef(moving);
+  motion.current = moving;
+  const cameraAction = useRef<(action: string) => void>(() => {});
   const host = useRef<HTMLDivElement>(null),
     current = useRef(props),
     [error, setError] = useState("");
@@ -63,7 +72,7 @@ export default function MoonScene(props: Props) {
       label.textContent = moon.name;
       label.onclick = () => current.current.onSelect(moon.id);
       container.appendChild(label);
-      return { moon, mesh, path, label };
+      return { moon, mesh, path, label, target: new THREE.Vector3() };
     });
     function relative(id: string, time: Date) {
       const m = eclipticVector(id, time),
@@ -82,21 +91,50 @@ export default function MoonScene(props: Props) {
       camera.updateProjectionMatrix();
     });
     resize.observe(container);
-    let frame = 0,
-      lastTime = "",
+    const destination = camera.position.clone(),
+      target = controls.target.clone();
+    let flying = false;
+    controls.addEventListener("start", () => {
+      flying = false;
+    });
+    cameraAction.current = (action) => {
+      if (action === "reset") {
+        destination.set(
+          0,
+          current.current.topView ? 19 : 10,
+          current.current.topView ? 0.01 : 16,
+        );
+        target.set(0, 0, 0);
+      } else {
+        if (!flying) {
+          destination.copy(camera.position);
+          target.copy(controls.target);
+        }
+        destination
+          .sub(target)
+          .multiplyScalar(action === "in" ? 0.8 : 1.25)
+          .add(target);
+      }
+      flying = true;
+    };
+    let lastTime = "",
       lastMonth = "",
       lastTop: boolean | null = null;
     const projected = new THREE.Vector3();
-    function draw() {
+    const stop = animateScene(container, (dt) => {
       const p = current.current,
         date = new Date(p.time);
       if (lastTop !== p.topView) {
-        camera.position.set(0, p.topView ? 19 : 10, p.topView ? 0.01 : 16);
+        destination.set(0, p.topView ? 19 : 10, p.topView ? 0.01 : 16);
+        target.set(0, 0, 0);
+        flying = true;
         lastTop = p.topView;
       }
       if (p.time !== lastTime) {
         for (const object of objects) {
-          object.mesh.position.copy(relative(object.moon.id, date));
+          object.target.copy(relative(object.moon.id, date));
+          if (!lastTime || !motion.current)
+            object.mesh.position.copy(object.target);
           if (p.time.slice(0, 7) !== lastMonth) {
             const points = Array.from({ length: 101 }, (_, i) =>
               relative(
@@ -118,8 +156,23 @@ export default function MoonScene(props: Props) {
       central.scale.setScalar(
         p.trueScale ? ((planet.radiusKm / 149597870.7) * scale) / 0.8 : 1,
       );
-      controls.update();
+      if (flying) {
+        const alpha = motion.current ? damping(dt, 8) : 1;
+        camera.position.lerp(destination, alpha);
+        controls.target.lerp(target, alpha);
+        if (
+          camera.position.distanceToSquared(destination) < 0.00001 &&
+          controls.target.distanceToSquared(target) < 0.00001
+        )
+          flying = false;
+      }
+      controls.dampingFactor = damping(dt, 9);
+      controls.update(dt);
       for (const object of objects) {
+        object.mesh.position.lerp(
+          object.target,
+          motion.current ? damping(dt, 20) : 1,
+        );
         object.mesh.scale.setScalar(
           p.trueScale
             ? ((object.moon.radiusKm / 149597870.7) * scale) / 0.14
@@ -129,16 +182,13 @@ export default function MoonScene(props: Props) {
         projected.copy(object.mesh.position).project(camera);
         object.label.style.display =
           p.labels && projected.z < 1 ? "block" : "none";
-        object.label.style.left = `${(projected.x * 0.5 + 0.5) * container.clientWidth}px`;
-        object.label.style.top = `${(-projected.y * 0.5 + 0.5) * container.clientHeight + 12}px`;
+        object.label.style.transform = `translate3d(${(projected.x * 0.5 + 0.5) * container.clientWidth}px,${(-projected.y * 0.5 + 0.5) * container.clientHeight + 12}px,0) translateX(-50%)`;
         object.label.dataset.selected = String(object.moon.id === p.selected);
       }
       renderer.render(scene, camera);
-      frame = requestAnimationFrame(draw);
-    }
-    frame = requestAnimationFrame(draw);
+    });
     return () => {
-      cancelAnimationFrame(frame);
+      stop();
       resize.disconnect();
       controls.dispose();
       disposeScene(scene);
@@ -148,7 +198,11 @@ export default function MoonScene(props: Props) {
     };
   }, [parent]);
   return (
-    <div className="scene-wrap">
+    <div
+      ref={fullscreen.ref}
+      tabIndex={-1}
+      className={`scene-wrap${fullscreen.expanded ? " is-expanded" : ""}`}
+    >
       <div
         className="solar-canvas"
         ref={host}
@@ -160,6 +214,31 @@ export default function MoonScene(props: Props) {
         <span>J2000 ECLIPTIC</span>
       </div>
       {error && <div className="scene-error">{error}</div>}
+      <div className="scene-tools">
+        {[
+          { id: "in", label: "Zoom in", icon: Plus },
+          { id: "out", label: "Zoom out", icon: Minus },
+          { id: "reset", label: "Reset camera", icon: RotateCcw },
+          {
+            id: "fullscreen",
+            label: fullscreen.fullscreen ? "Exit fullscreen" : "Fullscreen",
+            icon: Maximize2,
+          },
+        ].map((tool) => (
+          <button
+            key={tool.id}
+            aria-label={tool.label}
+            title={tool.label}
+            onClick={() =>
+              tool.id === "fullscreen"
+                ? fullscreen.toggle()
+                : cameraAction.current(tool.id)
+            }
+          >
+            <tool.icon size={18} />
+          </button>
+        ))}
+      </div>
       <div className="scene-hint">
         Calculated moon positions · drag to orbit · scroll to zoom
       </div>

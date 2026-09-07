@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "../vendor/shadcn-tailwind-4.13.0.css";
+@import "./galaxy.css";
 
 @utility scrollbar-thin {
   scrollbar-width: thin;
@@ -151,6 +152,20 @@ button:disabled {
 :focus-visible {
   outline: 2px solid #b6c7ff;
   outline-offset: 4px;
+}
+.bao-nav-link,
+.text-button,
+.motion-control,
+.site-footer a,
+.atlas button,
+.scene-tools button {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+.disclosure > summary > svg {
+  transition: transform 180ms ease;
 }
 ::selection {
   background: #685296;
@@ -700,6 +715,13 @@ code,
 .scene-wrap:fullscreen {
   height: 100vh;
 }
+.scene-wrap.is-expanded {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: 100;
+}
 .solar-canvas {
   position: absolute;
   inset: 0;
@@ -743,6 +765,8 @@ code,
 }
 .object-label {
   position: absolute;
+  left: 0;
+  top: 0;
   transform: translateX(-50%);
   padding: 4px 6px;
   color: #bac2d3;
@@ -1667,6 +1691,15 @@ code,
   }
   .spin {
     animation: none;
+  }
+  .bao-nav-link,
+  .text-button,
+  .motion-control,
+  .site-footer a,
+  .atlas button,
+  .scene-tools button,
+  .disclosure > summary > svg {
+    transition: none;
   }
   [data-slot="sheet-content"],
   [data-slot="dialog-content"],

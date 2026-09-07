@@ -28,10 +28,13 @@ export async function horizons(
   const asteroid = target.startsWith("asteroid:") ? target.slice(9) : null;
   if (asteroid && !/^[a-zA-Z0-9 -]{1,40}$/.test(asteroid))
     throw new ApiError("Invalid asteroid designation.");
-  const id = asteroid
-    ? `DES=${asteroid};`
-    : (findBody(target)?.horizonsId ??
-      missions.find((m) => m.id === target)?.horizonsId);
+  let id =
+    findBody(target)?.horizonsId ??
+    missions.find((m) => m.id === target)?.horizonsId;
+  if (asteroid) {
+    // JPL looks up permanent asteroid numbers separately from designations.
+    id = /^\d+$/.test(asteroid) ? `${asteroid};` : `DES=${asteroid};`;
+  }
   if (!id)
     throw new ApiError("Choose a supported planet, moon, or spacecraft.");
   const center = { sun: "500@10", earth: "500@399", barycenter: "500@0" }[

@@ -1,0 +1,228 @@
+{
+  "researchedAt": "2026-09-07",
+  "globalNotes": [
+    "All downloaded JPEGs were opened and visually verified. No baked-in UI text, captions, or labels.",
+    "The four ESA/Hubble images are processed telescope observations. The Milky Way asset is an artist’s concept and must be labeled as an illustration wherever presented.",
+    "Approximate galaxy diameters depend on which component is measured. Use approximate symbols and do not treat these values as precise boundaries."
+  ],
+  "reuse": {
+    "esahubble": {
+      "name": "Creative Commons Attribution 4.0 International",
+      "url": "https://esahubble.org/copyright/",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "requirements": "Keep the complete credit wording visibly associated with the image; make online credit links active. Do not imply ESA/Hubble endorsement. Resizing and cropping are permitted."
+    },
+    "nasa": {
+      "name": "NASA Images and Media Usage Guidelines",
+      "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "requirements": "NASA permits factual educational/informational use, including Internet pages, with source acknowledgment and no implication of endorsement. The selected NASA Goddard illustration has no third-party copyright notice."
+    }
+  },
+  "galaxies": [
+    {
+      "id": "andromeda",
+      "name": "Andromeda",
+      "designation": "M31",
+      "imageUrl": "https://cdn.esahubble.org/archives/images/publicationjpg/heic2501a.jpg",
+      "sourcePage": "https://esahubble.org/images/heic2501a/",
+      "width": 4000,
+      "height": 935,
+      "bytes": 1188951,
+      "imageKind": "Observation",
+      "imageDescription": "NASA/ESA Hubble photomosaic released in January 2025.",
+      "alt": "A long Hubble mosaic of Andromeda, with a glowing yellow center, dark dust lanes, blue outer stars, and jagged mosaic edges.",
+      "credit": "NASA, ESA, B. Williams (University of Washington)",
+      "reusePolicy": "esahubble",
+      "compositionNote": "Extremely wide panorama, with visible jagged edges from individual observations. Use contain for the complete mosaic, or crop carefully for a tall card.",
+      "facts": [
+        {
+          "label": "Type",
+          "value": "Spiral galaxy",
+          "source": "https://esahubble.org/images/heic2501a/"
+        },
+        {
+          "label": "Distance",
+          "value": "About 2.5 million light-years",
+          "source": "https://esahubble.org/images/heic2501a/"
+        },
+        {
+          "label": "Diameter",
+          "value": "About 200,000 light-years",
+          "source": "https://esahubble.org/news/heic1901/"
+        },
+        {
+          "label": "Distinctive feature",
+          "value": "The 2025 Hubble mosaic resolves the light of about 200 million stars, giving astronomers a detailed record of Andromeda’s history of mergers.",
+          "source": "https://esahubble.org/images/heic2501a/"
+        }
+      ],
+      "localPath": "public/galaxies/andromeda.webp",
+      "sha256": "1942f582aa27b71f8a9aab920a44ea7d701233fd3f79328ed5887fc84d0a8af1",
+      "processing": "Converted to WebP; uncropped. A reduced thumbnail is supplied for navigation."
+    },
+    {
+      "id": "triangulum",
+      "name": "Triangulum",
+      "designation": "M33",
+      "imageUrl": "https://cdn.esahubble.org/archives/images/publicationjpg/heic1901a.jpg",
+      "sourcePage": "https://esahubble.org/images/heic1901a/",
+      "width": 4000,
+      "height": 2251,
+      "bytes": 8637009,
+      "imageKind": "Observation",
+      "imageDescription": "Hubble mosaic of the central region and inner spiral arms.",
+      "alt": "Triangulum’s inner spiral arms, filled with countless stars, dark dust clouds, and bright blue nebulae.",
+      "credit": "NASA, ESA, and M. Durbin, J. Dalcanton, and B. F. Williams (University of Washington)",
+      "reusePolicy": "esahubble",
+      "compositionNote": "This shows the central region and inner spiral arms, not the entire galaxy.",
+      "facts": [
+        {
+          "label": "Type",
+          "value": "Spiral galaxy without a central bar",
+          "source": "https://esahubble.org/news/heic1901/"
+        },
+        {
+          "label": "Distance",
+          "value": "About 3 million light-years",
+          "source": "https://esahubble.org/news/heic1901/"
+        },
+        {
+          "label": "Diameter",
+          "value": "About 60,000 light-years",
+          "source": "https://esahubble.org/news/heic1901/"
+        },
+        {
+          "label": "Distinctive feature",
+          "value": "The Local Group’s third-largest galaxy has no bright central bulge; its abundant gas and dust sustain active star formation.",
+          "source": "https://esahubble.org/news/heic1901/"
+        }
+      ],
+      "localPath": "public/galaxies/triangulum.webp",
+      "sha256": "3f8009226ed67efe8d8e581eb17db3491f52acf38059da9a27ccd0aa175678f1",
+      "processing": "Converted to WebP; uncropped. A reduced thumbnail is supplied for navigation."
+    },
+    {
+      "id": "whirlpool",
+      "name": "Whirlpool",
+      "designation": "M51",
+      "imageUrl": "https://cdn.esahubble.org/archives/images/publicationjpg/heic0506a.jpg",
+      "sourcePage": "https://esahubble.org/images/heic0506a/",
+      "width": 4000,
+      "height": 2776,
+      "bytes": 4060187,
+      "imageKind": "Observation",
+      "imageDescription": "Hubble image of M51 and its companion NGC 5195.",
+      "alt": "The Whirlpool Galaxy’s two blue spiral arms and pink star-forming regions, beside its smaller golden companion NGC 5195.",
+      "credit": "NASA, ESA, S. Beckwith (STScI), and The Hubble Heritage Team (STScI/AURA)",
+      "reusePolicy": "esahubble",
+      "sourceNote": "Use the current NASA Messier catalog’s approximate 31-million-light-year distance. The 2005 ESA image page retains an older estimate of 25 million light-years.",
+      "facts": [
+        {
+          "label": "Type",
+          "value": "Grand-design spiral galaxy",
+          "source": "https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-51/"
+        },
+        {
+          "label": "Distance",
+          "value": "About 31 million light-years",
+          "source": "https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-51/"
+        },
+        {
+          "label": "Distinctive feature",
+          "value": "Its two sweeping spiral arms compress hydrogen gas, creating bright star-forming regions and young blue star clusters.",
+          "source": "https://esahubble.org/images/heic0506a/"
+        },
+        {
+          "label": "Companion",
+          "value": "The smaller yellow galaxy NGC 5195 passes behind M51; their interaction may help make the spiral pattern prominent.",
+          "source": "https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-51/"
+        }
+      ],
+      "localPath": "public/galaxies/whirlpool.webp",
+      "sha256": "94fae6ee525fd37064342c1172dce70f74a85e92f244e331d5b246d9b96bf788",
+      "processing": "Converted to WebP; uncropped. A reduced thumbnail is supplied for navigation."
+    },
+    {
+      "id": "sombrero",
+      "name": "Sombrero",
+      "designation": "M104",
+      "imageUrl": "https://cdn.esahubble.org/archives/images/publicationjpg/heic2506a.jpg",
+      "sourcePage": "https://esahubble.org/images/heic2506a/",
+      "width": 4000,
+      "height": 2368,
+      "bytes": 1636885,
+      "imageKind": "Observation",
+      "imageDescription": "Hubble mosaic with updated processing, released in April 2025.",
+      "alt": "The nearly edge-on Sombrero Galaxy, with a bright white central bulge wrapped by a sharply defined dark dust ring.",
+      "credit": "ESA/Hubble & NASA, K. Noll",
+      "reusePolicy": "esahubble",
+      "sourceNote": "Avoid an unqualified spiral or elliptical type. ESA’s 2025 release explicitly notes features of both and an uncertain overall classification. The 50,000-light-year diameter is from the earlier ESA/Hubble image description.",
+      "facts": [
+        {
+          "label": "Type",
+          "value": "Galaxy with both spiral and elliptical features",
+          "source": "https://esahubble.org/news/heic2506/"
+        },
+        {
+          "label": "Distance",
+          "value": "About 30 million light-years",
+          "source": "https://esahubble.org/images/heic2506a/"
+        },
+        {
+          "label": "Diameter",
+          "value": "About 50,000 light-years",
+          "source": "https://esahubble.org/images/opo0328a/"
+        },
+        {
+          "label": "Distinctive feature",
+          "value": "Viewed only about six degrees above its equatorial plane, its dust-rich disk cuts a dark band across a brilliant central bulge.",
+          "source": "https://esahubble.org/news/heic2506/"
+        }
+      ],
+      "localPath": "public/galaxies/sombrero.webp",
+      "sha256": "44e6c01c776f9a83a9dc28a14be69f5351d3f4d322a8bec9f49f9f93d56dc6aa",
+      "processing": "Converted to WebP; uncropped. A reduced thumbnail is supplied for navigation."
+    },
+    {
+      "id": "milky-way",
+      "name": "Milky Way",
+      "designation": "Our home galaxy",
+      "imageUrl": "https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014930/Westerlund_1_illustration_Plan_Unlabeled.jpg",
+      "sourcePage": "https://svs.gsfc.nasa.gov/14930/",
+      "width": 4000,
+      "height": 4000,
+      "bytes": 2683571,
+      "imageKind": "Scientific illustration",
+      "requiredCaption": "Artist’s concept of the Milky Way",
+      "imageDescription": "Unlabeled top-down artist’s concept from NASA Goddard’s Conceptual Image Lab, released December 2025. This is not an external photograph of the Milky Way.",
+      "alt": "Artist’s concept of the Milky Way viewed from above, with a bright elongated central bar and blue spiral arms on black space.",
+      "credit": "NASA’s Goddard Space Flight Center/Conceptual Image Lab",
+      "reusePolicy": "nasa",
+      "facts": [
+        {
+          "label": "Type",
+          "value": "Barred spiral galaxy",
+          "source": "https://imagine.gsfc.nasa.gov/features/cosmic/milkyway_info.html"
+        },
+        {
+          "label": "Our location",
+          "value": "Inside the galaxy, about 26,000 light-years from its center",
+          "source": "https://imagine.gsfc.nasa.gov/features/cosmic/milkyway_info.html"
+        },
+        {
+          "label": "Disk diameter",
+          "value": "About 100,000 light-years",
+          "source": "https://imagine.gsfc.nasa.gov/features/cosmic/milkyway_info.html"
+        },
+        {
+          "label": "Distinctive feature",
+          "value": "The Sun lies in the Orion Arm. Because we observe the galaxy from within, external views of the Milky Way are scientific illustrations.",
+          "source": "https://imagine.gsfc.nasa.gov/features/cosmic/milkyway_info.html"
+        }
+      ],
+      "localPath": "public/galaxies/milky-way.webp",
+      "sha256": "43d0d4b1d65c6aaedf03106edc075831225e032f96de6d1987a3a5cc7141b2f3",
+      "processing": "Converted to WebP; uncropped. A reduced thumbnail is supplied for navigation."
+    }
+  ]
+}

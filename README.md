@@ -2,6 +2,8 @@
 
 An interactive astronomy explorer and web API. Explore planetary motion, your
 night sky, exoplanets, asteroids, spacecraft trajectories and space imagery.
+The Galaxy explorer adds credited, zoomable views of five galaxies and interactive
+Milky Way tours of the Solar System, TRAPPIST-1 and Kepler-90.
 
 Built with **Next.js, React, TypeScript, Three.js and Astronomy Engine**.
 The frontend and API live in one project, with small feature files and readable
@@ -31,6 +33,7 @@ source, follow [GitHub setup](docs/GITHUB_SETUP.md).
 
 ## Features
 
+- **Galaxy explorer:** pan and zoom five NASA/ESA galaxy images up to 10×, open sourced descriptions, enter three Milky Way systems and fly into 23 planet close-ups. Fullscreen includes all controls and has a mobile viewport fallback.
 - **Solar system:** interactive 3D planets and moons, date controls, playback and physical measurements.
 - **Sky charts:** location and time controls, stars, constellations, visible planets, Moon phase and SVG export.
 - **Exoplanets:** a NASA archive snapshot, search, filters, host-star details and system diagrams.
@@ -40,6 +43,19 @@ source, follow [GitHub setup](docs/GITHUB_SETUP.md).
 
 The interface uses original BAO icons, colorful cosmic artwork, pausable
 background motion and a responsive left navigation bar.
+Open `/explore#galaxies` to begin. Drag to pan a galaxy or orbit a system; scroll,
+pinch or use the zoom buttons. Select a planet to focus, use Whole system to
+return, and open Details for measurements. Keyboard users can select every
+destination and use +, −, arrows (galaxy images), 0 to reset and Escape to leave
+fullscreen. The Milky Way overview is a NASA artist’s concept. Planetary systems
+are illustrative models with reference orbital periods; they are not objects
+resolved inside the galaxy images. Use the Solar system tool for dated ephemerides.
+
+Rendering follows the display refresh rate, with time-based camera damping and
+smooth interpolation of calculated position samples. Offscreen scenes and hidden
+tabs pause rendering. Background preferences synchronize across views and planet
+portraits; reduced motion is honored by default. Explicit simulation playback is
+separate from decorative background motion.
 
 ## Development → testing → production
 

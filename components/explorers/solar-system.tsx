@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { animateScene } from "@/lib/animation";
 import {
   Pause,
   Play,
@@ -45,6 +46,7 @@ export default function SolarSystem({
   time: string;
   onTimeChange: (time: string) => void;
 }) {
+  const host = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState("mars");
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState("10");
@@ -61,19 +63,19 @@ export default function SolarSystem({
   useEffect(() => {
     if (!playing) return;
     let elapsed = Date.parse(time);
-    let previous = performance.now();
-    const timer = setInterval(() => {
-      const now = performance.now();
-      elapsed += ((now - previous) / 1000) * Number(speed) * DAY_MS;
-      previous = now;
+    let pending = 0;
+    return animateScene(host.current!, (dt) => {
+      elapsed += dt * Number(speed) * DAY_MS;
+      pending += dt;
+      if (pending < 0.1) return;
+      pending = 0;
       const next = new Date(elapsed);
       if (next.getUTCFullYear() < 1900 || next.getUTCFullYear() > 2100) {
         setPlaying(false);
         return;
       }
       onTimeChange(next.toISOString());
-    }, 100);
-    return () => clearInterval(timer);
+    });
     // The running clock owns its time until paused; external edits pause it.
   }, [playing, speed, onTimeChange]);
 
@@ -86,7 +88,7 @@ export default function SolarSystem({
   const yearEnd = Date.UTC(date.getUTCFullYear() + 1, 0, 1);
 
   return (
-    <div className="solar-page">
+    <div className="solar-page" ref={host}>
       <PageHeading title="Solar system" />
       <div className="scene-selection">
         <Choice

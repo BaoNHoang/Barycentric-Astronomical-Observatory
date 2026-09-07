@@ -20,6 +20,9 @@ const ApiPlayground = lazy(
   () => import("@/components/explorers/api-playground"),
 );
 const Guide = lazy(() => import("@/components/explorers/guide"));
+const GalaxyExplorer = lazy(
+  () => import("@/components/explorers/galaxy-explorer"),
+);
 
 export default function Observatory({ initialTime }: { initialTime: string }) {
   const { moving, toggleMotion } = useBackgroundMotion();
@@ -68,8 +71,12 @@ export default function Observatory({ initialTime }: { initialTime: string }) {
         />
         <div className="app-shell">
           <NavigationToggle />
-          <main className="workspace" id="main-content">
+          <main
+            className={`workspace${view === "galaxies" ? " galaxy-workspace" : ""}`}
+            id="main-content"
+          >
             <Suspense fallback={<Loading label="Loading…" />}>
+              {view === "galaxies" && <GalaxyExplorer />}
               {view === "solar-system" && (
                 <SolarSystem time={time} onTimeChange={setTime} />
               )}

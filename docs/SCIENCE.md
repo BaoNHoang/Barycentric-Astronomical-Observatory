@@ -15,3 +15,13 @@ Live adapters have timeouts and clear error responses; they never substitute inv
 Spacecraft and asteroid availability depends on JPL trajectory coverage. Future states are predictions, and a catalog listing does not establish current mission status. This app is for learning and exploration, not spacecraft navigation or precision stellar astrometry.
 
 For asset licenses and original imagery credits, see [CREDITS.md](../CREDITS.md).
+
+## Galaxy explorer and system tours
+
+Five credited NASA/ESA images support image-plane pan and zoom (1×–10×). Four are processed Hubble observations; the external Milky Way view is a NASA artist’s concept. Galaxy properties are approximate literature values with per-fact source links. Image zoom does not resolve planets in external galaxies.
+
+Three separate Milky Way system models use reference orbital periods, circular paths, arbitrary starting phases, uniformly spaced enlarged orbits and enlarged planet radii. They are not ephemerides or maps of system locations within the galaxy image. A selected planet pauses orbital travel while its illustrative axial rotation can continue. Playback advances one simulated day per real second.
+
+The 15 exoplanet records are a small subset of the existing NASA archive snapshot (2026-09-05). Kepler-90 is stored under its KOI-351 host alias in that catalog; original names are retained in data/explorer-systems.json. Exoplanet surface appearances are unknown and use plain colors. Missing measurements remain null. Temperatures, where displayed for exoplanets, are equilibrium estimates rather than surface measurements.
+
+The existing Solar system tool and astronomy API retain their calculated coordinates. Its 3D view and moon view now interpolate position updates for smoother playback; displayed measurements retain their calculated values. Animation clocks pause offscreen or in hidden tabs and clamp long frame gaps to avoid jumps.

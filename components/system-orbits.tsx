@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { animateScene } from "@/lib/animation";
 import { Play, Pause } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import type { Exoplanet } from "@/lib/api/exoplanets";
@@ -12,23 +13,40 @@ export default function SystemOrbits({
   selected: string;
   onSelect: (planet: Exoplanet) => void;
 }) {
-  const [days, setDays] = useState(0),
-    [playing, setPlaying] = useState(false);
+  const days = useRef(0);
+  const surface = useRef<HTMLDivElement>(null);
+  const [playing, setPlaying] = useState(false);
   const host = planets[0]?.hostname;
   useEffect(() => {
-    setDays(0);
+    days.current = 0;
     setPlaying(false);
+    surface.current
+      ?.querySelectorAll<SVGGElement>("[data-period]")
+      .forEach((node) => {
+        node.setAttribute(
+          "transform",
+          `translate(${Number(node.dataset.radius)} 0)`,
+        );
+      });
   }, [host]);
   useEffect(() => {
-    if (!playing) return;
-    let previous = performance.now();
-    const timer = setInterval(() => {
-      const now = performance.now();
-      setDays((value) => value + (now - previous) / 1000);
-      previous = now;
-    }, 40);
-    return () => clearInterval(timer);
-  }, [playing]);
+    if (!playing || !surface.current) return;
+    const nodes = Array.from(
+      surface.current!.querySelectorAll<SVGGElement>("[data-period]"),
+    );
+    return animateScene(surface.current!, (dt) => {
+      days.current += dt;
+      for (const node of nodes) {
+        const angle =
+          (days.current / Number(node.dataset.period)) * Math.PI * 2;
+        const r = Number(node.dataset.radius);
+        node.setAttribute(
+          "transform",
+          `translate(${r * Math.cos(angle)} ${r * Math.sin(angle)})`,
+        );
+      }
+    });
+  }, [playing, host]);
   const known = planets
     .filter(
       (p) =>
@@ -45,7 +63,7 @@ export default function SystemOrbits({
       </p>
     );
   return (
-    <div className="system-orbits">
+    <div className="system-orbits" ref={surface}>
       <svg
         viewBox="0 0 360 330"
         role="img"
@@ -54,7 +72,7 @@ export default function SystemOrbits({
         <circle cx="180" cy="154" r="10" fill="#efb477" />
         {known.map((planet, i) => {
           const r = 30 + ((i + 1) * 105) / known.length,
-            angle = (days / planet.pl_orbper!) * Math.PI * 2;
+            angle = (days.current / planet.pl_orbper!) * Math.PI * 2;
           return (
             <g key={planet.pl_name}>
               <circle
@@ -65,6 +83,9 @@ export default function SystemOrbits({
                 fill="none"
               />
               <g
+                data-period={planet.pl_orbper}
+                data-radius={r}
+                transform={`translate(${r * Math.cos(angle)} ${r * Math.sin(angle)})`}
                 role="button"
                 tabIndex={0}
                 aria-label={`Select ${planet.pl_name}`}
@@ -77,15 +98,10 @@ export default function SystemOrbits({
                 }}
                 style={{ cursor: "pointer" }}
               >
+                <circle cx={180} cy={154} r="10" fill="transparent" />
                 <circle
-                  cx={180 + r * Math.cos(angle)}
-                  cy={154 + r * Math.sin(angle)}
-                  r="10"
-                  fill="transparent"
-                />
-                <circle
-                  cx={180 + r * Math.cos(angle)}
-                  cy={154 + r * Math.sin(angle)}
+                  cx={180}
+                  cy={154}
                   r={planet.pl_name === selected ? 5 : 3.5}
                   fill={planet.pl_name === selected ? "#efb477" : "#adc5e2"}
                 />

@@ -43,3 +43,44 @@ BAO transforms the d3-celestial stars.6.json and constellations.lines.json files
 Star catalog: XHIP: An Extended Hipparcos Compilation, E. Anderson and C. Francis (2012), VizieR V/137D. Coordinates are J2000; proper motion is omitted in BAO. Constellation lines and naming derive from IAU data and Olaf Frohn’s modifications as documented by d3-celestial.
 
 Astronomy Engine: Don Cross, MIT license. Three.js: three.js authors, MIT license. Their license notices are in licenses/.
+
+## Galaxy explorer
+
+- Andromeda: NASA, ESA, B. Williams (University of Washington)
+  Local image: public/galaxies/andromeda.webp
+  Source: https://esahubble.org/images/heic2501a/
+  Direct download: https://cdn.esahubble.org/archives/images/publicationjpg/heic2501a.jpg
+  NASA/ESA Hubble photomosaic released in January 2025.
+  Processing: converted to WebP, uncropped; reduced navigation thumbnail.
+
+- Triangulum: NASA, ESA, and M. Durbin, J. Dalcanton, and B. F. Williams (University of Washington)
+  Local image: public/galaxies/triangulum.webp
+  Source: https://esahubble.org/images/heic1901a/
+  Direct download: https://cdn.esahubble.org/archives/images/publicationjpg/heic1901a.jpg
+  Hubble mosaic of the central region and inner spiral arms.
+  Processing: converted to WebP, uncropped; reduced navigation thumbnail.
+
+- Whirlpool: NASA, ESA, S. Beckwith (STScI), and The Hubble Heritage Team (STScI/AURA)
+  Local image: public/galaxies/whirlpool.webp
+  Source: https://esahubble.org/images/heic0506a/
+  Direct download: https://cdn.esahubble.org/archives/images/publicationjpg/heic0506a.jpg
+  Hubble image of M51 and its companion NGC 5195.
+  Processing: converted to WebP, uncropped; reduced navigation thumbnail.
+
+- Sombrero: ESA/Hubble & NASA, K. Noll
+  Local image: public/galaxies/sombrero.webp
+  Source: https://esahubble.org/images/heic2506a/
+  Direct download: https://cdn.esahubble.org/archives/images/publicationjpg/heic2506a.jpg
+  Hubble mosaic with updated processing, released in April 2025.
+  Processing: converted to WebP, uncropped; reduced navigation thumbnail.
+
+- Milky Way: NASA’s Goddard Space Flight Center/Conceptual Image Lab
+  Local image: public/galaxies/milky-way.webp
+  Source: https://svs.gsfc.nasa.gov/14930/
+  Direct download: https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014930/Westerlund_1_illustration_Plan_Unlabeled.jpg
+  Unlabeled top-down artist’s concept from NASA Goddard’s Conceptual Image Lab, released December 2025. This is not an external photograph of the Milky Way.
+  Processing: converted to WebP, uncropped; reduced navigation thumbnail.
+
+ESA/Hubble observations are reused under CC BY 4.0: https://esahubble.org/copyright/ .
+The Milky Way is an artist’s concept, used under NASA media guidelines: https://www.nasa.gov/nasa-brand-center/images-and-media/ .
+Exact provenance, source facts, dimensions and SHA-256 hashes: /galaxies/manifest.json .

@@ -6,6 +6,9 @@ import { planets } from "@/data/bodies";
 import { eclipticVector, orbitPoints, AU_KM } from "@/lib/astronomy";
 import { planetMesh, disposeScene } from "@/lib/scene";
 import { Maximize2, Plus, Minus, RotateCcw } from "@/components/icons";
+import { animateScene, damping } from "@/lib/animation";
+import { useFullscreen } from "@/hooks/use-fullscreen";
+import { useBackgroundMotion } from "@/hooks/use-background-motion";
 type Props = {
   time: string;
   selected: string;
@@ -16,6 +19,10 @@ type Props = {
   topView: boolean;
 };
 export default function SolarScene(props: Props) {
+  const fullscreen = useFullscreen();
+  const { moving } = useBackgroundMotion();
+  const motion = useRef(moving);
+  motion.current = moving;
   const host = useRef<HTMLDivElement>(null),
     current = useRef(props),
     cameraAction = useRef<(action: string) => void>(() => {}),
@@ -73,7 +80,7 @@ export default function SolarScene(props: Props) {
       label.setAttribute("aria-label", `Select ${planet.name}`);
       label.onclick = () => current.current.onSelect(planet.id);
       container.appendChild(label);
-      return { planet, mesh, path, label, size };
+      return { planet, mesh, path, label, size, target: new THREE.Vector3() };
     });
     // Background points are ambience, not a sky chart or a star catalog.
     const background = new Float32Array(1500 * 3);
@@ -114,34 +121,33 @@ export default function SolarScene(props: Props) {
       camera.updateProjectionMatrix();
     });
     resize.observe(container);
+    const destination = camera.position.clone(),
+      target = controls.target.clone();
+    let flying = false;
+    controls.addEventListener("start", () => {
+      flying = false;
+    });
     cameraAction.current = (action) => {
       if (action === "reset") {
-        camera.position.set(
+        destination.set(
           0,
           current.current.topView ? 120 : 46,
           current.current.topView ? 0.01 : 68,
         );
-        camera.position.multiplyScalar(current.current.trueScale ? 8 : 1);
-        controls.target.set(0, 0, 0);
+        destination.multiplyScalar(current.current.trueScale ? 8 : 1);
+        target.set(0, 0, 0);
+        flying = true;
       }
-      if (action === "in")
-        camera.position
-          .sub(controls.target)
-          .multiplyScalar(0.8)
-          .add(controls.target);
-      if (action === "out")
-        camera.position
-          .sub(controls.target)
-          .multiplyScalar(1.25)
-          .add(controls.target);
-      if (action === "fullscreen") {
-        if (!document.fullscreenElement)
-          container.parentElement
-            ?.requestFullscreen?.()
-            .catch(() =>
-              setError("Fullscreen is unavailable in this browser."),
-            );
-        else document.exitFullscreen();
+      if (action === "in" || action === "out") {
+        if (!flying) {
+          destination.copy(camera.position);
+          target.copy(controls.target);
+        }
+        destination
+          .sub(target)
+          .multiplyScalar(action === "in" ? 0.8 : 1.25)
+          .add(target);
+        flying = true;
       }
     };
     const raycaster = new THREE.Raycaster(),
@@ -173,24 +179,24 @@ export default function SolarScene(props: Props) {
     };
     renderer.domElement.addEventListener("pointerdown", down);
     renderer.domElement.addEventListener("pointerup", click);
-    let frame = 0,
-      lastTime = "",
+    let lastTime = "",
       lastScale: boolean | null = null,
       lastTop: boolean | null = null,
       orbitYear = -1;
     const projected = new THREE.Vector3();
-    function draw() {
+    const stop = animateScene(container, (dt) => {
       const settings = current.current,
         date = new Date(settings.time);
       const changedScale = settings.trueScale !== lastScale;
       if (settings.topView !== lastTop || changedScale) {
-        camera.position.set(
+        destination.set(
           0,
           settings.topView ? 120 : 46,
           settings.topView ? 0.01 : 68,
         );
-        camera.position.multiplyScalar(settings.trueScale ? 8 : 1);
-        controls.target.set(0, 0, 0);
+        destination.multiplyScalar(settings.trueScale ? 8 : 1);
+        target.set(0, 0, 0);
+        flying = true;
         lastTop = settings.topView;
         lastScale = settings.trueScale;
       }
@@ -201,11 +207,13 @@ export default function SolarScene(props: Props) {
             ? 10
             : (12 * Math.log(1 + object.planet.semiMajorAu)) /
               object.planet.semiMajorAu;
-          object.mesh.position.set(
+          object.target.set(
             vector.x * scale,
             vector.z * scale,
             -vector.y * scale,
           );
+          if (!lastTime || changedScale || !motion.current)
+            object.mesh.position.copy(object.target);
           object.mesh.scale.setScalar(
             settings.trueScale
               ? ((object.planet.radiusKm / AU_KM) * 10) / object.size
@@ -227,10 +235,25 @@ export default function SolarScene(props: Props) {
         lastTime = settings.time;
         orbitYear = date.getUTCFullYear();
       }
-      controls.update();
+      if (flying) {
+        const alpha = motion.current ? damping(dt, 8) : 1;
+        camera.position.lerp(destination, alpha);
+        controls.target.lerp(target, alpha);
+        if (
+          camera.position.distanceToSquared(destination) < 0.00001 &&
+          controls.target.distanceToSquared(target) < 0.00001
+        )
+          flying = false;
+      }
+      controls.dampingFactor = damping(dt, 9);
+      controls.update(dt);
       const width = container!.clientWidth,
         height = container!.clientHeight;
       for (const object of objects) {
+        object.mesh.position.lerp(
+          object.target,
+          motion.current ? damping(dt, 20) : 1,
+        );
         const selected = object.planet.id === settings.selected;
         (object.path.material as THREE.LineBasicMaterial).opacity = selected
           ? 0.68
@@ -244,17 +267,14 @@ export default function SolarScene(props: Props) {
           Math.abs(projected.y) < 0.9
             ? "block"
             : "none";
-        object.label.style.left = `${(projected.x * 0.5 + 0.5) * width}px`;
-        object.label.style.top = `${(-projected.y * 0.5 + 0.5) * height + 12}px`;
+        object.label.style.transform = `translate3d(${(projected.x * 0.5 + 0.5) * width}px,${(-projected.y * 0.5 + 0.5) * height + 12}px,0) translateX(-50%)`;
         object.label.dataset.selected = String(selected);
         object.label.style.setProperty("--object-color", object.planet.color);
       }
       renderer.render(scene, camera);
-      frame = requestAnimationFrame(draw);
-    }
-    frame = requestAnimationFrame(draw);
+    });
     return () => {
-      cancelAnimationFrame(frame);
+      stop();
       resize.disconnect();
       controls.dispose();
       disposeScene(scene);
@@ -264,7 +284,11 @@ export default function SolarScene(props: Props) {
     };
   }, []);
   return (
-    <div className="scene-wrap">
+    <div
+      ref={fullscreen.ref}
+      tabIndex={-1}
+      className={`scene-wrap${fullscreen.expanded ? " is-expanded" : ""}`}
+    >
       <div
         ref={host}
         className="solar-canvas"
@@ -285,13 +309,21 @@ export default function SolarScene(props: Props) {
           { id: "in", label: "Zoom in", icon: Plus },
           { id: "out", label: "Zoom out", icon: Minus },
           { id: "reset", label: "Reset camera", icon: RotateCcw },
-          { id: "fullscreen", label: "Fullscreen", icon: Maximize2 },
+          {
+            id: "fullscreen",
+            label: fullscreen.fullscreen ? "Exit fullscreen" : "Fullscreen",
+            icon: Maximize2,
+          },
         ].map((tool) => (
           <button
             key={tool.id}
             aria-label={tool.label}
             title={tool.label}
-            onClick={() => cameraAction.current(tool.id)}
+            onClick={() =>
+              tool.id === "fullscreen"
+                ? fullscreen.toggle()
+                : cameraAction.current(tool.id)
+            }
           >
             <tool.icon size={17} />
           </button>

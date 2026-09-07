@@ -68,6 +68,12 @@ Live NASA/JPL checks run only after code reaches test or when Test suite is
 manually run on test. A provider outage can block production promotion. Inspect
 the failed job and rerun it after the provider recovers; do not skip the failure.
 
+The asteroid trajectory checks use Apophis by both permanent number and
+designation. A newly discovered object can appear in the close-approach catalog
+before Horizons indexes it, so the live test does not assume its first result
+already has an available trajectory. JPL documents the two lookup formats in
+its [Horizons manual](https://ssd.jpl.nasa.gov/horizons/manual.html#small-bodies).
+
 The interface checks render HTML on the server. They do not exercise browser
 clicks or prove visual appearance.
 

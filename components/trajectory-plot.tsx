@@ -1,36 +1,34 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
+import { animateScene } from "@/lib/animation";
 import { Play, Pause } from "@/components/icons";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import type { Trajectory } from "@/lib/api/horizons";
 import { formatDate, formatNumber } from "@/components/shared";
 export default function TrajectoryPlot({ data }: { data: Trajectory }) {
+  const host = useRef<HTMLDivElement>(null);
+  const latestProgress = useRef(0);
   const [progress, setProgress] = useState(0),
     [playing, setPlaying] = useState(false);
+  latestProgress.current = progress;
   useEffect(() => {
     setProgress(0);
     setPlaying(false);
   }, [data]);
   useEffect(() => {
     if (!playing) return;
-    let last = performance.now();
-    const timer = setInterval(() => {
-      const now = performance.now(),
-        step = (now - last) / 12000;
-      last = now;
-      setProgress((value) => {
-        const next = value + step;
-        if (next >= 1) {
-          setPlaying(false);
-          return 1;
-        }
-        return next;
-      });
-    }, 40);
-    return () => clearInterval(timer);
+    let value = latestProgress.current;
+    return animateScene(host.current!, (dt) => {
+      value = Math.min(1, value + dt / 12);
+      setProgress(value);
+      if (value >= 1) setPlaying(false);
+    });
   }, [playing]);
-  const positions = data.points.map((point) => point.position_au);
+  const positions = useMemo(
+    () => data.points.map((point) => point.position_au),
+    [data],
+  );
   const extent =
     Math.max(
       ...positions.flatMap((p) => [Math.abs(p.x), Math.abs(p.y)]),
@@ -66,7 +64,7 @@ export default function TrajectoryPlot({ data }: { data: Trajectory }) {
         fraction,
   ).toISOString();
   return (
-    <div className="trajectory-chart">
+    <div className="trajectory-chart" ref={host}>
       <svg
         viewBox="0 0 640 480"
         role="img"

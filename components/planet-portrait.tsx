@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { planetMesh, disposeScene } from "@/lib/scene";
 import { Orbit } from "@/components/icons";
+import { animateScene } from "@/lib/animation";
+import { useBackgroundMotion } from "@/hooks/use-background-motion";
 export default function PlanetPortrait({
   id,
   color,
@@ -10,6 +12,9 @@ export default function PlanetPortrait({
   id: string;
   color: string;
 }) {
+  const { moving } = useBackgroundMotion();
+  const motion = useRef(moving);
+  motion.current = moving;
   const host = useRef<HTMLDivElement>(null),
     [failed, setFailed] = useState(false);
   useEffect(() => {
@@ -42,21 +47,12 @@ export default function PlanetPortrait({
       camera.updateProjectionMatrix();
     });
     observer.observe(container);
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    let frame = 0,
-      last = 0;
-    function draw(now: number) {
-      if (!reduced)
-        planet.rotation.y += Math.min((now - last) / 1000, 0.05) * 0.08;
-      last = now;
+    const stop = animateScene(container, (dt) => {
+      if (motion.current) planet.rotation.y += dt * 0.08;
       renderer.render(scene, camera);
-      frame = requestAnimationFrame(draw);
-    }
-    frame = requestAnimationFrame(draw);
+    });
     return () => {
-      cancelAnimationFrame(frame);
+      stop();
       observer.disconnect();
       disposeScene(scene);
       renderer.dispose();
